@@ -1,14 +1,40 @@
 /* eslint-disable @next/next/no-img-element */
 import endPoints from '@services/api';
 import useFetch from '@hooks/useFetch';
+// import { Chart } from '@common/Chart';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+
+import { Bar } from 'react-chartjs-2';
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const PRODUCT_LIMIT = 20;
 const PRODUCT_OFFSET = 1;
 
 export default function Dashboard() {
   const products = useFetch(endPoints.products.getProducts(PRODUCT_LIMIT, PRODUCT_OFFSET));
+
+  // const categoryNames = products?.map((product) => product.category);
+  // const categoryCount = categoryNames?.map((category) => category.name);
+  // const countOccurrences = (arr) => arr.reduce((prev, curr) => ((prev[curr] = ++prev[curr] || 1), prev), {});
+  const labels = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'];
+
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: 'My First Dataset',
+        data: [65, 59, 80, 81, 56, 55, 40],
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgb(255, 99, 132)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
     <>
+      <Bar data={data}></Bar>
+      {/* <Chart className="mb-8 mt-2">{data}</Chart> */}
       {/*  */}
       <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
         <div className="flex flex-1 justify-between sm:hidden">
