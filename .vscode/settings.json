@@ -4,6 +4,7 @@
         "chartjs",
         "headlessui",
         "heroicons",
+        "ndash",
         "tailwindcss"
     ]
 }
