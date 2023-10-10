@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useRef } from 'react';
+import { addProducts } from '@services/api/products';
 
 export default function FormProduct() {
   const formRef = useRef(null);
@@ -12,9 +13,10 @@ export default function FormProduct() {
       price: parseInt(formData.get('price')),
       description: formData.get('description'),
       categoryId: parseInt(formData.get('category')),
-      images: [formData.get('images').name],
+      images: ['https://media.istockphoto.com/id/1284067986/es/foto/auriculares-3d-rendering-yellow-aislados-sobre-fondo-azul.jpg'],
     };
     console.log(data);
+    addProducts(data).then(console.log).catch(console.err);
   };
 
   return (
