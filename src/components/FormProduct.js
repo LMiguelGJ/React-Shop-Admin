@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useRef } from 'react';
-import { addProducts } from '@services/api/products';
+import { addProducts, updateProduct } from '@services/api/products';
 
 export default function FormProduct({ setOpen, setAlert, product }) {
   const formRef = useRef(null);
@@ -15,24 +15,31 @@ export default function FormProduct({ setOpen, setAlert, product }) {
       categoryId: parseInt(formData.get('category')),
       images: ['https://i.imgur.com/XdeLTDY.jpeg'],
     };
-    addProducts(data)
-      .then(() => {
-        setAlert({
-          active: true,
-          message: 'product added successfully',
-          type: 'success',
-          autoClose: false,
-        });
-        setOpen(false);
-      })
-      .catch((error) => {
-        setAlert({
-          active: true,
-          message: error.message,
-          type: 'error',
-          autoClose: false,
-        });
+
+    if (product) {
+      updateProduct(product.id, data).then((response) => {
+        console.log(response);
       });
+    } else {
+      addProducts(data)
+        .then(() => {
+          setAlert({
+            active: true,
+            message: 'product added successfully',
+            type: 'success',
+            autoClose: false,
+          });
+          setOpen(false);
+        })
+        .catch((error) => {
+          setAlert({
+            active: true,
+            message: error.message,
+            type: 'error',
+            autoClose: false,
+          });
+        });
+    }
   };
 
   return (
@@ -90,7 +97,7 @@ export default function FormProduct({ setOpen, setAlert, product }) {
               <textarea
                 name="description"
                 id="description"
-                defaultValue={product.description}
+                defaultValue={product?.description}
                 autoComplete="description"
                 rows="3"
                 className="form-textarea mt-1 block w-full mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
@@ -115,7 +122,7 @@ export default function FormProduct({ setOpen, setAlert, product }) {
                         className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                       >
                         <span>Upload a file</span>
-                        <input defaultValue={product.images} id="images" name="images" type="file" className="sr-only" />
+                        <input defaultValue={product?.images} id="images" name="images" type="file" className="sr-only" />
                       </label>
                       <p className="pl-1">or drag and drop</p>
                     </div>
