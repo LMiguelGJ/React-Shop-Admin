@@ -1,10 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useRef } from 'react';
 import { addProducts, updateProduct } from '@services/api/products';
+import { useRouter } from 'next/router';
 
 export default function FormProduct({ setOpen, setAlert, product }) {
   const formRef = useRef(null);
+  const router = useRouter();
   console.log(product);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(formRef.current);
@@ -17,8 +20,8 @@ export default function FormProduct({ setOpen, setAlert, product }) {
     };
 
     if (product) {
-      updateProduct(product.id, data).then((response) => {
-        console.log(response);
+      updateProduct(product.id, data).then(() => {
+        router.push('/dashboard/products/');
       });
     } else {
       addProducts(data)
